@@ -187,6 +187,7 @@ def plot_envelopes(envelopes, fs, band_edges, title="Extracted Envelopes"):
 
     for i, envelope in enumerate(envelopes):
         axes[i].plot(time, envelope)
+        axes[i].set_ylim(0, 1)
 
         axes[i].set_ylabel("Amplitude")
         axes[i].set_title(
