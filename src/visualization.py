@@ -169,3 +169,33 @@ def plot_filterbank_psd(channels, fs, band_edges, title="Filter Bank PSD"):
     fig.suptitle(title)
     plt.tight_layout()
     plt.show()
+
+
+def plot_envelopes(envelopes, fs, band_edges, title="Extracted Envelopes"):
+    """
+    Plot the temporal envelopes of all filter-bank channels.
+    """
+
+    time = np.arange(len(envelopes[0])) / fs
+
+    fig, axes = plt.subplots(
+        len(envelopes),
+        1,
+        figsize=(12, 8),
+        sharex=True
+    )
+
+    for i, envelope in enumerate(envelopes):
+        axes[i].plot(time, envelope)
+
+        axes[i].set_ylabel("Amplitude")
+        axes[i].set_title(
+            f"CH{i+1}: {band_edges[i]}-{band_edges[i+1]} Hz"
+        )
+        axes[i].grid(True)
+
+    axes[-1].set_xlabel("Time [s]")
+
+    fig.suptitle(title)
+    plt.tight_layout()
+    plt.show()
