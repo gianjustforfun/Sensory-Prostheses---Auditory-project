@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+<defs><linearGradient id="gold" x2=".8" y2="1"><stop stop-color="#fff3bf"/><stop offset="1" stop-color="#e8bd79"/></linearGradient></defs>
+<ellipse cx="60" cy="66" rx="49" ry="48" fill="#cba56b"/>
+<circle cx="60" cy="58" r="49" fill="url(#gold)" stroke="#d3aa69" stroke-width="3"/>
+<circle cx="60" cy="58" r="39" fill="none" stroke="#d3aa69" stroke-width="2"/>
+<path d="M45 53c0-25 34-26 34-3 0 15-16 16-17 29-1 12-17 11-17 0m9-27c0-12 16-13 16-1 0 8-11 9-12 17" fill="none" stroke="#997344" stroke-width="5" stroke-linecap="round"/>
+<path d="m29 34 3-7 3 7 7 3-7 3-3 7-3-7-7-3z" fill="#fff9e2"/>
+</svg>
