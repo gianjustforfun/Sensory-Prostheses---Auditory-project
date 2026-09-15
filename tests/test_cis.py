@@ -64,7 +64,7 @@ class TestCIS(unittest.TestCase):
         np.testing.assert_allclose(result.pulses.sum(axis=1), 0, atol=1e-10)
 
     def test_combined_encoder_matches_separate_file(self):
-        from combined_cis import encode_cis as combined_encode
+        from combined_part_1_and_2 import encode_cis as combined_encode
         separate = encode_cis(self.env, 22050)
         combined = combined_encode(self.env, 22050)
         np.testing.assert_array_equal(separate.pulses, combined.pulses)

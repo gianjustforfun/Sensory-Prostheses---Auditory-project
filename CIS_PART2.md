@@ -39,8 +39,8 @@ Run `python part2_cis.py` from the repository root. It uses Part 1's Python
 modules and the same speech/music examples, then generates and checks the pulses.
 Outputs are saved in `results/`. Use `--no-plots` to export pulses without figures.
 No notebook is needed. If Part 1 already supplies compressed envelopes, call:
-The optional `combined_cis.py` includes the same processing and encoding
-functions in one standalone file. Run `python combined_cis.py` for that version.
+The optional `combined_part_1_and_2.py` includes the same processing and encoding
+functions in one standalone file. Run `python combined_part_1_and_2.py` for that version.
 Keep the separate modules as the main version; update the combined copy if
 their implementations change. Reconstruction is not included yet.
 
