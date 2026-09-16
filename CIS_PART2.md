@@ -1,6 +1,6 @@
 # Part 2: continuous interleaved sampling
 
-This educational encoder uses the compressed envelopes produced by Part 1.
+This code uses the compressed envelopes produced by Part 1.
 It produces four **trains** of electrical-style biphasic pulses, not just four
 individual pulses. No patient thresholds, electrode impedances or physical
 current units are modeled. Do not use these outputs to drive hardware.
