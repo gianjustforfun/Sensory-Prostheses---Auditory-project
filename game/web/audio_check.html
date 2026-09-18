@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audio check · Can you hear it?</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #302d40; background: #f6f3fb; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1000px; margin: auto; padding: 40px 22px; }
+    .eyebrow { font-size: .8rem; letter-spacing: .07em; font-weight: 700; color: #665b81; }
+    h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 12px 0; }
+    .intro { max-width: 700px; line-height: 1.65; }
+    .toolbar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 28px 0; }
+    select, button { font: inherit; padding: 10px 14px; border: 1px solid #b8adc9; border-radius: 12px; background: white; color: inherit; }
+    select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #70609c; outline-offset: 3px; }
+    button { cursor: pointer; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    article { background: #fff; border: 1px solid #e3ddea; border-radius: 22px; padding: 22px; min-width: 0; }
+    .label { display: inline-block; border-radius: 9px; padding: 5px 10px; font-weight: 600; }
+    h2 { font-size: 1.3rem; margin: 13px 0 18px; }
+    audio { width: 100%; }
+    .original { margin-top: 20px; background: #edf4f0; }
+    .error { font-size: .9rem; color: #852b31; line-height: 1.5; }
+    .note { line-height: 1.6; font-size: .9rem; color: #615b70; margin-top: 28px; }
+    .ready { min-height: 1.4em; font-size: .85rem; color: #615b70; }
+    a { color: #514076; }
+    @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } main { padding: 26px 16px; } }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">SENSORY PROSTHESES ENGINEERING</div>
+  <h1>One sentence. Six levels.</h1>
+  <p class="intro">Compare the reconstructed versions from 1 to 32 channels. Try the lower channel counts first, then listen to the original. These are the same recordings used in the game.</p>
+  <div class="toolbar">
+    <label for="sentence">Recording</label>
+    <select id="sentence">
+      <option value="1">Sentence 1</option><option value="2">Sentence 2</option>
+      <option value="3">Sentence 3</option><option value="4">Sentence 4</option>
+      <option value="5">Sentence 5</option>
+    </select>
+    <button id="stop" type="button">Stop audio</button>
+  </div>
+  <div class="grid" id="levels"></div>
+  <article class="original">
+    <span class="label" style="background:#cce7dd">Original recording</span>
+    <h2>Compare after trying the levels</h2>
+    <audio id="original" controls preload="metadata" aria-label="Original recording"></audio>
+    <p class="ready" id="original-status" role="status"></p>
+  </article>
+  <p class="note">The six reconstructed files and the original are RMS-matched using global gains. Equal RMS does not guarantee equal perceived loudness. No answers or scores are saved on this check page. Listening here first may make the game easier because you already know the sentences.</p>
+  <p><a href="index.html">Back to game</a></p>
+</main>
+<script>
+  const LEVELS = [
+    [1, 'Legend', '#ddd4f4'], [2, 'Champion', '#cddff6'],
+    [4, 'Pro', '#cce7dd'], [8, 'Skilled', '#f4e7b9'],
+    [16, 'Beginner', '#f4d5c3'], [32, 'Rookie', '#edcddd']
+  ];
+  const players = [];
+  const select = document.getElementById('sentence');
+  const container = document.getElementById('levels');
+  for (const [channels, name, color] of LEVELS) {
+    const article = document.createElement('article');
+    article.innerHTML = `<span class="label" style="background:${color}">${name}</span><h2>${channels} ${channels === 1 ? 'channel' : 'channels'}</h2><audio controls preload="metadata" aria-label="${channels} channel reconstruction"></audio><p class="ready" role="status"></p>`;
+    container.append(article);
+    players.push({audio: article.querySelector('audio'), status: article.querySelector('p'), suffix: `ch_${channels}`});
+  }
+  players.push({audio: document.getElementById('original'), status: document.getElementById('original-status'), suffix: 'original'});
+  for (const player of players) {
+    player.audio.addEventListener('play', () => {
+      for (const other of players) if (other !== player) other.audio.pause();
+    });
+    player.audio.addEventListener('loadedmetadata', () => {
+      player.status.className = 'ready';
+      player.status.textContent = `${player.audio.duration.toFixed(2)} seconds · ready`;
+    });
+    player.audio.addEventListener('error', () => {
+      player.status.className = 'error';
+      player.status.textContent = `File missing or unreadable. Prepare sentence ${select.value} with prepare_game_audio.py.`;
+    });
+  }
+  function loadSentence() {
+    const id = select.value.padStart(2, '0');
+    for (const player of players) {
+      player.audio.pause();
+      player.status.className = 'ready';
+      player.status.textContent = 'Loading audio...';
+      player.audio.src = `../assets/processed/sentence_${id}_${player.suffix}.wav`;
+      player.audio.load();
+    }
+  }
+  select.addEventListener('change', loadSentence);
+  document.getElementById('stop').addEventListener('click', () => {
+    for (const player of players) { player.audio.pause(); player.audio.currentTime = 0; }
+  });
+  loadSentence();
+</script>
+</body>
+</html>

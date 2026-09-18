@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "sentence_id": 1,
+  "source_filename": "sentence_01.mp3",
+  "source_sha256": "7c9510de471d441f7af1872c81597f65ea2f92eb291c8e06adc9a936ad596d88",
+  "audio_fs": 22050,
+  "input_samples": 74088,
+  "duration_s": 3.36,
+  "stimulation_fs": 320000,
+  "pulse_rate_per_channel": 1000,
+  "phase_duration_us": 12.5,
+  "interphase_gap_us": 0,
+  "envelope_cutoff_hz": 400,
+  "filter_order": 4,
+  "alpha": 1000.0,
+  "noise_seed": 42,
+  "target_rms": 0.08,
+  "shared_peak_attenuation": 1.0,
+  "peak_limit": 0.95,
+  "wav_subtype": "PCM_16",
+  "levels": [
+    {
+      "channels": 1,
+      "band_edges_hz": [
+        200.0,
+        8000.0
+      ],
+      "slot_samples": 320,
+      "phase_samples": 4,
+      "frames": 3360,
+      "envelope_peak": 0.5291387711159667,
+      "pulse_decoding_max_error": 0.0
+    },
+    {
+      "channels": 2,
+      "band_edges_hz": [
+        200.0,
+        1250.0,
+        8000.0
+      ],
+      "slot_samples": 160,
+      "phase_samples": 4,
+      "frames": 3360,
+      "envelope_peak": 0.5262153008677737,
+      "pulse_decoding_max_error": 0.0
+    },
+    {
+      "channels": 4,
+      "band_edges_hz": [
+        200.0,
+        500.0,
+        1250.0,
+        3150.0,
+        8000.0
+      ],
+      "slot_samples": 80,
+      "phase_samples": 4,
+      "frames": 3360,
+      "envelope_peak": 0.41828683361325475,
+      "pulse_decoding_max_error": 0.0
+    },
+    {
+      "channels": 8,
+      "band_edges_hz": [
+        200.0,
+        316.2277660168379,
+        500.0,
+        790.5694150420946,
+        1250.0,
+        1984.3134832984433,
+        3150.0,
+        5019.960159204456,
+        8000.0
+      ],
+      "slot_samples": 40,
+      "phase_samples": 4,
+      "frames": 3360,
+      "envelope_peak": 0.38531394610575176,
+      "pulse_decoding_max_error": 0.0
+    },
+    {
+      "channels": 16,
+      "band_edges_hz": [
+        200.0,
+        251.4866859365871,
+        316.2277660168379,
+        397.6353643835253,
+        500.0,
+        628.7167148414676,
+        790.5694150420946,
+        994.088410958813,
+        1250.0,
+        1574.9259836967112,
+        1984.3134832984433,
+        2500.117491717157,
+        3150.0,
+        3976.540519282309,
+        5019.960159204456,
+        6337.166659764888,
+        8000.0
+      ],
+      "slot_samples": 20,
+      "phase_samples": 4,
+      "frames": 3360,
+      "envelope_peak": 0.36517060381477645,
+      "pulse_decoding_max_error": 0.0
+    },
+    {
+      "channels": 32,
+      "band_edges_hz": [
+        200.0,
+        224.27067839402775,
+        251.4866859365871,
+        282.0054483103209,
+        316.2277660168379,
+        354.60307805812056,
+        397.6353643835253,
+        445.88976461874813,
+        500.0,
+        560.6766959850693,
+        628.7167148414676,
+        705.013620775802,
+        790.5694150420946,
+        886.5076951453011,
+        994.088410958813,
+        1114.72441154687,
+        1250.0,
+        1403.0885501709747,
+        1574.9259836967112,
+        1767.8084920732924,
+        1984.3134832984433,
+        2227.3340226927426,
+        2500.117491717157,
+        2806.3089813684173,
+        3150.0,
+        3539.223450947859,
+        3976.540519282309,
+        4467.893796662962,
+        5019.960159204456,
+        5640.241497866782,
+        6337.166659764888,
+        7120.20598565232,
+        8000.0
+      ],
+      "slot_samples": 10,
+      "phase_samples": 4,
+      "frames": 3360,
+      "envelope_peak": 0.4128583831289128,
+      "pulse_decoding_max_error": 0.0
+    }
+  ],
+  "files": {
+    "original": {
+      "filename": "sentence_01_original.wav",
+      "global_gain": 0.5033857523386248,
+      "rms_before_pcm": 0.08,
+      "peak_before_pcm": 0.5033857523386248
+    },
+    "ch_1": {
+      "filename": "sentence_01_ch_1.wav",
+      "global_gain": 0.6794395895058583,
+      "rms_before_pcm": 0.08,
+      "peak_before_pcm": 0.8440794687148945
+    },
+    "ch_2": {
+      "filename": "sentence_01_ch_2.wav",
+      "global_gain": 0.6869842052136123,
+      "rms_before_pcm": 0.08,
+      "peak_before_pcm": 0.9460470807050463
+    },
+    "ch_4": {
+      "filename": "sentence_01_ch_4.wav",
+      "global_gain": 0.6901538297035829,
+      "rms_before_pcm": 0.08,
+      "peak_before_pcm": 0.6940330404219583
+    },
+    "ch_8": {
+      "filename": "sentence_01_ch_8.wav",
+      "global_gain": 0.6966860518178877,
+      "rms_before_pcm": 0.08,
+      "peak_before_pcm": 0.7002884824102473
+    },
+    "ch_16": {
+      "filename": "sentence_01_ch_16.wav",
+      "global_gain": 0.685544712977604,
+      "rms_before_pcm": 0.08,
+      "peak_before_pcm": 0.614448632541622
+    },
+    "ch_32": {
+      "filename": "sentence_01_ch_32.wav",
+      "global_gain": 0.6821207305674392,
+      "rms_before_pcm": 0.08,
+      "peak_before_pcm": 0.5778175529648981
+    }
+  }
+}
