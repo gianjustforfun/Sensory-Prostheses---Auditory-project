@@ -1,6 +1,25 @@
 # Part 3: acoustic reconstruction
 
 These files extend the existing auditory project on `part3-reconstruction`.
+They were prepared against part 2 at commit
+`19d23ee30922cd1a76abaeb40fc51b1827d00794`.
+
+## Put the files in the existing repository
+
+Copy the files individually into these locations. Merge the contents of the
+`src` and `tests` folders with the existing folders. Keep their other files.
+
+| Included file | Destination relative to the repository root |
+|---|---|
+| `part3_reconstruction.ipynb` | `part3_reconstruction.ipynb` |
+| `src/reconstruction.py` | `src/reconstruction.py` |
+| `tests/test_reconstruction.py` | `tests/test_reconstruction.py` |
+| `README-PART3.md` | `README-PART3.md` |
+
+The notebook belongs beside `cochlear_implant_assignment.ipynb`, not inside
+`src`. This is an add-on package, not a complete copy of the repository.
+It needs the existing `src/audio.py`, `preprocessing.py`, `filterbank.py`,
+`envelope.py`, `compression.py`, and `cis.py` from parts 1 and 2.
 
 ## Run
 
@@ -36,6 +55,36 @@ with the same names there. The four WAV files are `speech_original.wav`,
 `music_reconstructed.wav`. The original files here are preprocessed input
 references with the documented playback gain, not untouched source files.
 
+## Why compress and then decompress?
+
+The two operations serve different stages of this model. Part 1 applies
+logarithmic compression to reduce relative differences between weak and strong
+envelope values before part 2 represents them as CIS pulse amplitudes. Our
+normalized values illustrate this mapping; they are not patient-specific
+electrical currents or a calibrated clinical stimulation range.
+
+Part 3 has a different goal: recover the envelope information carried by those
+pulses and make an acoustic illustration. After reading the positive pulse
+phases, we apply the inverse mapping with the same alpha to return to the
+pre-compression envelope scale before controlling the noise carriers.
+Using compressed amplitudes directly would also be possible, but would keep
+the compression's change to relative envelope levels in the synthesized audio.
+
+For alpha = 1000, an envelope value of 0.01 becomes approximately 0.3471.
+Inverting that value returns approximately 0.01. The compression and its
+inverse cancel exactly in ideal arithmetic when applied to the same value.
+They are retained here because the reconstruction goes through the CIS
+representation. A vocoder using the part 1 envelopes directly could omit
+this pair and the pulse encoding/decoding stages.
+
+**Inverse compression is our acoustic-decoder choice. It is not an operation
+we attribute to the implant or the brain.** An implant delivers electrical
+stimulation, whereas our program generates a waveform for speaker/headphone
+playback. This inversion does not restore discarded fine structure or make
+the reconstructed sound an exact prediction of an implanted listener's hearing.
+It also cannot undo clipping. Envelope recovery remains approximate because
+the pipeline samples and interpolates the time-varying signals.
+
 ## Reuse from Python
 
 ```python
@@ -70,6 +119,15 @@ Seven added tests cover the log inverse, actual pulse decoding without cached
 amplitudes, nonzero gaps/reversed channel order, staggered interpolation,
 boundary holds, silence, incomplete frames, reproducible synthesis, relative
 channel gain preservation, the wrapper, and invalid parameters.
+
+Validation on 2026-09-17: all 14 unit tests passed (7 existing and 7 added).
+All 10 code cells in the notebook ran sequentially in a fresh Python process
+on the speech and music examples. The four exported WAV files have 176400
+samples each at 22050 Hz. The maximum pulse-amplitude extraction error was
+approximately 1.11e-16 for both examples. Envelope and comparison plots were
+also inspected. The test environment could not launch a Jupyter kernel,
+so notebook frontend interaction and audio playback need to be checked in
+your local PyCharm/Jupyter session.
 
 ## Interpretation and integration
 
