@@ -4,6 +4,14 @@ This project models the main signal-processing steps of a four-channel
 cochlear implant using the continuous interleaved sampling (CIS) strategy.
 It processes one speech recording and one music recording.
 
+## Unified notebook: Parts 1, 2 and 3
+
+`cochlear_implant_assignment.ipynb` is the main entry point for the complete
+project. Run it from top to bottom to process the example audio, encode the
+four CIS pulse trains, recover the transmitted envelopes and synthesize the
+acoustic reconstructions. The notebook uses the implementations in `src/`
+rather than duplicating them.
+
 ## Parts 1 and 2
 
 Part 1:
@@ -28,8 +36,11 @@ clock. Pulse amplitudes are normalized values, not real electrical currents.
 
 - `src/` contains the separate processing modules
 - `src/cis.py` contains the part 2 pulse encoder and plotting function
+- `src/reconstruction.py` contains the part 3 decoder and noise vocoder
+- `cochlear_implant_assignment.ipynb` is the unified main for all three parts
 - `part2_cis.py` connects the separate part 1 and part 2 modules
 - `combined_part_1_and_2.py` contains parts 1 and 2 in one Python file
+- `part3_reconstruction.ipynb` retains the standalone part 3 development notebook
 - `tests/test_cis.py` checks pulse timing, balance, interleaving, and integration
 - `CIS_PART2.md` explains the part 2 parameters and output format
 
@@ -42,6 +53,12 @@ pip install -r requirements.txt
 ```
 
 ## Run
+
+Start Jupyter and open `cochlear_implant_assignment.ipynb`, then choose
+**Run All**. This is the recommended way to run the complete project.
+
+The individual command-line entry points remain available for development and
+testing.
 
 Run the combined file:
 
