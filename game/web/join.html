@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can You Hear It? · Live</title><link rel="stylesheet" href="/web/multiplayer.css"></head>
+<body data-role="player"><header><a class="brand" href="/">◖ Can you hear it?</a><span class="course">Sensory Prostheses Engineering</span></header>
+<main class="player-main">
+<section class="card setup" id="setup"><span class="badge">YOUR NEXT LISTEN</span><h1>Let’s hear it.</h1>
+<form id="join-form"><label for="code">Room code</label><input id="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="off" required placeholder="123456">
+<label for="nickname">Your nickname</label><input id="nickname" maxlength="24" autocomplete="nickname" required placeholder="What should we call you?">
+<button class="full" id="join-button">Join game</button></form><p class="small">Listen through the host’s speakers. Your phone is for answers.</p></section>
+<section id="session" hidden><div class="topline"><span id="connection" class="badge" role="status">Connecting…</span><span class="score"><span id="nickname-label"></span> · <strong id="total">0</strong> points</span></div>
+<div class="card player-stage"><span class="eyebrow" id="progress">LOBBY</span><h1 id="stage-title">You’re in!</h1><p id="stage-help" aria-live="polite">Wait for the host to start.</p>
+<div class="level-summary" id="level-summary"></div>
+<form id="answer-form" hidden><label for="answer">What did you hear?</label><input id="answer" maxlength="300" autocomplete="off" autocapitalize="none" spellcheck="false" required placeholder="Type the whole sentence">
+<button id="submit" class="full">Submit answer</button></form>
+<div id="celebration" class="celebration" hidden><div class="confetti" aria-hidden="true"></div><div class="reward"><strong id="earned"></strong><img src="/web/live-coin.svg" alt="" width="78" height="78"></div><p>Nice listening! Wait for the next sentence.</p></div>
+<div id="solution" class="solution" hidden></div><div id="leaderboard"></div></div></section>
+<p id="error" class="error" role="alert"></p><a id="reset" href="/join" hidden>Join a new session</a>
+</main><footer>Gianluigi D’Antonio · Gabriele Colò · Yelizaveta Semikina<br><span>BME 576 · A classroom listening game</span></footer><script src="/web/multiplayer.js"></script></body></html>

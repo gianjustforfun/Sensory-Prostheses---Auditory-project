@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can You Hear It? · Live</title><link rel="stylesheet" href="/web/multiplayer.css"></head>
+<body data-role="host"><header><a class="brand" href="/">◖ Can you hear it?</a><span class="course">Sensory Prostheses Engineering</span></header>
+<main>
+<section class="card setup" id="setup"><span class="badge">HOST DESK</span><h1>Bring everyone<br>into the game.</h1>
+<p>Play the audio through the classroom speakers. You choose when to move to the next level.</p>
+<button id="create" disabled>Create a room</button><p id="readiness" role="status">Checking the audio files…</p></section>
+<div id="session" hidden>
+<div class="topline"><span class="badge" id="connection" role="status">Connecting…</span><span id="progress">Lobby</span><button class="quiet" id="new-room">New room</button></div>
+<div class="host-grid">
+<section class="card join-card"><span class="eyebrow">JOIN THE ROOM</span><div class="room-code" id="room-code"></div>
+<img id="qr" class="qr" alt="Scan to join this room" width="220" height="220">
+<a id="join-link" class="join-link" target="_blank" rel="noopener"></a><button class="quiet" id="copy-link">Copy link</button>
+<p id="join-note">Enter a nickname. No account needed.</p></section>
+<section class="card stage">
+<span class="eyebrow" id="stage-label">LOBBY</span><h1 id="stage-title">Ready when you are.</h1>
+<p id="stage-help">Players will appear below as they join.</p>
+<div id="levels" class="levels"></div>
+<div class="host-controls">
+<button id="start">Start game</button><button id="play" hidden>▶ Play audio</button>
+<button id="next-level" class="mint" hidden>Next level</button><button id="reveal" class="peach" hidden>Reveal sentence</button>
+<button id="original" class="secondary" hidden>▶ Hear original</button><button id="next-sentence" hidden>Next sentence</button>
+<button id="recover" class="secondary" hidden>Retry interrupted playback</button>
+</div><p id="listen-count" class="small"></p><p id="answered" aria-live="polite"></p>
+<div id="solution" class="solution" hidden></div>
+</section></div>
+<section class="card roster"><div class="topline"><h2 id="roster-title">Players</h2><button id="export" class="secondary">Download scores</button></div>
+<div id="roster"></div></section></div>
+<p id="error" class="error" role="alert"></p><a id="reset" href="/host" hidden>Start a new session</a>
+</main><audio id="audio" preload="auto"></audio><footer>Gianluigi D’Antonio · Gabriele Colò · Yelizaveta Semikina<br><span>BME 576 · A classroom listening game</span></footer><script src="/web/multiplayer.js"></script></body></html>
