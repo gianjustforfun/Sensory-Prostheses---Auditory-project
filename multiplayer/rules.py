@@ -3,16 +3,11 @@
 import re
 from dataclasses import dataclass, field
 
+from game.sentences import SENTENCES as RECORDINGS
 
-# Keep this order aligned with game/assets/processed/sentence_XX_*.wav.
-# These are the existing recordings, not newly synthesized audio.
-SENTENCES = (
-    "The small dog is sleeping on the bed.",
-    "Please put the red book on the table.",
-    "My sister drinks coffee every morning.",
-    "We can walk to the park together.",
-    "There is a blue car outside the house.",
-)
+
+# Use the same transcripts as the audio preparation script.
+SENTENCES = tuple(sentence["text"] for sentence in RECORDINGS)
 LEVELS = (
     {"name": "Legend", "channels": 1, "points": 100, "color": "#ddd4f4"},
     {"name": "Champion", "channels": 2, "points": 90, "color": "#cddff6"},
@@ -25,7 +20,7 @@ MAX_PLAYS = 2
 
 
 def normalize(text):
-    """Match the solo game's case/punctuation/whitespace normalization."""
+    """Ignore case, punctuation and repeated whitespace when checking answers."""
     return " ".join(re.sub(r"[^a-z0-9\s]", "", text.lower()).split())
 
 

@@ -1,9 +1,5 @@
 from pathlib import Path
 
-from src.audio import load_audio_file
-from src.preprocessing import preprocess_audio
-
-
 # Resolve the audio folder relative to this file.
 AUDIO_DIR = Path(__file__).resolve().parent / "assets" / "audio"
 
@@ -52,6 +48,10 @@ def load_sentences(sr=22050):
         Dictionaries containing the sentence ID, filename,
         expected text, processed audio and sampling frequency.
     """
+
+    # The server only needs the transcripts, so load audio libraries here.
+    from src.audio import load_audio_file
+    from src.preprocessing import preprocess_audio
 
     sentences = []
 

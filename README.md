@@ -35,18 +35,20 @@ NumPy 2 or later is needed for the band-power integration in `src/visualization.
 
 | Task | Entry point |
 | --- | --- |
-| Inspect filtering, envelopes and compression | `cochlear_implant_assignment.ipynb` |
+| Run Parts 1–3: filtering, CIS pulses and acoustic reconstruction | `cochlear_implant_assignment.ipynb` |
 | Generate and check four-channel CIS pulses | `python part2_cis.py` |
-| Reconstruct speech and music, compare plots and audio | `part3_reconstruction.ipynb` |
+| Run the standalone Part 3 walkthrough | `part3_reconstruction.ipynb` |
 | Preview the game recordings and processed levels | `game_preview.ipynb` |
 | Start the multiplayer game locally | `python run_multiplayer.py` |
 | Regenerate the game audio | `python prepare_game_audio.py` |
 | Run the tests | `python -m pytest tests -q` |
 
-Open notebooks from the repository root using `jupyter notebook` or PyCharm,
-then run their cells in order. The reconstruction notebook runs parts 1 and 2
-itself, so the notebooks do not need to be run in sequence. The speech and music
-examples come from librosa and are downloaded on first use.
+Start with `cochlear_implant_assignment.ipynb`, the unified notebook for Parts
+1, 2 and 3. Open it from the repository root using `jupyter notebook` or PyCharm
+and run all cells in order. It calls the shared modules in `src/`.
+`part3_reconstruction.ipynb` remains an optional standalone walkthrough; it runs
+the preceding stages itself. Neither notebook requires the other to run first.
+The speech and music examples come from librosa and are downloaded on first use.
 
 The CIS script writes pulse arrays and timing metadata to `results/`. Add
 `--no-plots` to skip the timing figures. The reconstruction notebook writes
@@ -72,14 +74,28 @@ remain aliases for `part2_cis.py` and `run_multiplayer.py`, respectively.
 | Channels | 4 | 1, 2, 4, 8, 16, 32 |
 | Audio sampling rate | 22,050 Hz | 22,050 Hz |
 | Frequency boundaries | 200, 500, 1,250, 3,150, 8,000 Hz | Merge or subdivide the same four bands |
-| Butterworth filter order | 4 | 4 |
-| Envelope cutoff | 400 Hz | 400 Hz |
+| Butterworth design parameter `N` | 4 | 4 |
+| Nominal single-pass envelope cutoff | 400 Hz | 400 Hz |
 | Compression parameter | α = 1,000 | α = 1,000 |
 | Pulse rate | 1,000 pulses/s/channel | 1,000 pulses/s/channel |
 | Stimulation sampling rate | 100,000 Hz | 320,000 Hz |
 | Phase duration | 50 µs | 12.5 µs |
 | Interphase gap | 0 µs | 0 µs |
 | Noise seed | 42 | 42 |
+
+The band-pass design uses `butter(N=4, btype="bandpass")`, producing an
+eighth-order filter with four second-order sections per band. Filters are
+applied forward and backward with `sosfiltfilt`. This squares the single-pass
+magnitude response: the envelope filter has approximately −6.02 dB gain at
+400 Hz and its final half-power point is about 358.35 Hz at 22,050 Hz sampling.
+Negative envelope undershoot from filtering is clipped to zero before compression.
+
+In the four-channel model, each 1 ms frame contains four 250 µs slots.
+Channel onsets are 0, 250, 500 and 750 µs, in low-to-high frequency order.
+Each pulse lasts 100 µs and uses the same amplitude in its two opposite phases,
+leaving 150 µs idle in each slot. Only complete frames are emitted.
+The 1,000 Hz envelope sampling rate is above twice the nominal 400 Hz cutoff,
+but the filter does not completely remove all higher-frequency content.
 
 The shorter game pulses fit all 32 channels into a 1 ms frame. Pulse amplitudes
 are normalized values, not calibrated currents. Inverse compression restores
@@ -91,6 +107,28 @@ The vocoder preserves envelope information but replaces temporal fine structure
 with new noise carriers. It is an offline listening demonstration, not a model
 of an individual implant user's perception. Repeated exposure to the same
 sentence also affects recognition, so game scores are not clinical measures.
+
+### Pulse output and reuse
+
+`python part2_cis.py` saves speech and music `.npz` files in `results/`.
+Each archive contains `pulses` with shape `(channels, stimulation samples)`,
+`stimulation_fs`, `pulse_rate`, `phase_samples`, `gap_samples`, `onset_samples`,
+`audio_fs` and `input_samples`. Channel indices are zero-based. The timing fields
+identify where to read each pulse when recovering the envelope samples.
+
+To encode existing compressed envelopes in Python:
+
+```python
+from src.cis import encode_cis, plot_cis
+
+result = encode_cis(compressed_envelopes, audio_fs)
+plot_cis(result, start=0.5, duration=0.0033)
+```
+
+`result.amplitudes` is available for encoder checks. Reconstruction reads
+`result.pulses` instead, so it includes the pulse-demodulation step. Simulation
+amplitudes do not include patient thresholds or electrode impedances and must
+not be used to drive stimulation hardware.
 
 ## Classroom game
 
@@ -165,6 +203,10 @@ The service uses these settings:
 | Health Check Path | `/healthz` |
 | Environment | `PYTHON_VERSION=3.12.10` |
 | Instance Type | Free |
+
+During integration, keep the deployed branch at `feature/multiplayer`. After
+the pull request is merged and verified, select `main` in the Render dashboard
+for subsequent deployments. Confirm the deployed commit before a classroom session.
 
 For an existing service configured through the Render dashboard, update its
 **Build Command** to the value above before deploying this revision. Adding

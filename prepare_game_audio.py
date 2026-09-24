@@ -221,7 +221,7 @@ def main():
     for sentence in SENTENCES:
         if sentence["id"] in selected:
             prepare_sentence(sentence, args.output_dir)
-    print("Done. Open game/web/audio_check.html to compare the levels.")
+    print("Done. Open game_preview.ipynb to compare the levels.")
 
 
 if __name__ == "__main__":
